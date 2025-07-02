@@ -94,7 +94,21 @@ void mergeSort(Record *arr, int p, int r)
 // Made By:
 void bubbleSort(Record *arr, int n)
 {
+    int i, j;           // Loop counters
+    Record temp;        // Used to temporarily hold a Record during swapping
 
+    // Go through the list multiple times
+    for (i = 0; i < n - 1; i++) {
+        // Compare each pair of Records next to each other
+        for (j = 0; j < n - i - 1; j++) {
+            // If the current ID is bigger than the next one, swap them
+            if (arr[j].idNumber > arr[j + 1].idNumber) {
+                temp = arr[j];              
+                arr[j] = arr[j + 1];        
+                arr[j + 1] = temp;          
+            }
+        }
+    }
 }
 
 
