@@ -9,12 +9,12 @@
 int main()
 {
     char datasets[7][100] = {
-        "data/almostsorted.txt",
         "data/random100.txt",
         "data/random25000.txt",
         "data/random50000.txt",
         "data/random75000.txt",
         "data/random100000.txt",
+        "data/almostsorted.txt",
         "data/totallyreversed.txt"
     };
 
