@@ -18,22 +18,12 @@ void insertionSort(Record *arr, int n)
 {
     // TODO: Implement this sorting algorithm here.
 
-
-
-
-
-
 }
 
 // Made By: 
 void selectionSort(Record *arr, int n)
 {
     // TODO: Implement this sorting algorithm here.
-
-
-
-
-
 
 }
 
@@ -42,24 +32,24 @@ void mergeSort(Record *arr, int p, int r)
 {
     // Checks if there's more than one element in the array.
     if (p < r) {
-        int nMid = (p + r) / 2;      // Find the middle index.
-        mergeSort(arr, p, nMid);       // Sort the left half recursively.
-        mergeSort(arr, nMid + 1, r);     // Sort the right half recursively.
+        int mid = (p + r) / 2;      // Find the middle index.
+        mergeSort(arr, p, mid);       // Sort the left half recursively.
+        mergeSort(arr, mid + 1, r);     // Sort the right half recursively.
 
         // Get the lengths of the two halves.
-        int nFirstHalfLen = nMid - p + 1;
-        int nSecondHalfLen = r - nMid;
+        int firstHalfLen = mid - p + 1;
+        int secondHalfLen = r - mid;
 
         // Temporary array to hold their values.
-        Record leftArr[nFirstHalfLen];
-        Record rightArr[nSecondHalfLen];
+        Record leftArr[firstHalfLen];
+        Record rightArr[secondHalfLen];
 
         // Copies the data to each array.
-        for (int i = 0; i < nFirstHalfLen; i++) {
+        for (int i = 0; i < firstHalfLen; i++) {
             leftArr[i] = arr[p + i];
         }
-        for (int j = 0; j < nSecondHalfLen; j++) {
-            rightArr[j] = arr[nMid + 1 + j];
+        for (int j = 0; j < secondHalfLen; j++) {
+            rightArr[j] = arr[mid + 1 + j];
         }
 
         // Merge the sorted backs into the original array.
@@ -67,7 +57,7 @@ void mergeSort(Record *arr, int p, int r)
         int j = 0;      // Right array index.
         int k = p;      // Merged array index.
 
-        while (i < nFirstHalfLen && j < nSecondHalfLen) {
+        while (i < firstHalfLen && j < secondHalfLen) {
             if (leftArr[i].idNumber <= rightArr[j].idNumber) {
                 arr[k++] = leftArr[i++];
             } else {
@@ -76,10 +66,10 @@ void mergeSort(Record *arr, int p, int r)
         }
 
         // Check if there are remaining elements, copy them.
-        while (i < nFirstHalfLen) {
+        while (i < firstHalfLen) {
             arr[k++] = leftArr[i++];
         }
-        while (j < nSecondHalfLen) {
+        while (j < secondHalfLen) {
             arr[k++] = rightArr[j++];
         }
     }
@@ -93,19 +83,10 @@ void mergeSort(Record *arr, int p, int r)
 
 
 // Made By:
-void BinarySort(Record *arr, int n)
+void bubbleSort(Record *arr, int n)
 {
 
-
 }
-
-
-
-
-
-
-
-
 
 
 #endif
