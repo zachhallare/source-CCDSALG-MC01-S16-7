@@ -11,11 +11,8 @@
 */
 
 
-
-
-
 // Made By: 
-void insertionSort(Record *arr, int n)
+void insertionSort(Record *arr, int n, long long *stepCounter)
 {
     for (int i = 1; i < n; i++) {
         Record key = arr[i];   
@@ -24,27 +21,29 @@ void insertionSort(Record *arr, int n)
         while (j >= 0 && arr[j].idNumber > key.idNumber) {
             arr[j + 1] = arr[j];
             j--;
+            (*stepCounter)++;
         }
 
         arr[j + 1] = key;   
+        (*stepCounter)++;
     }
 }
 
 // Made By: 
-void selectionSort(Record *arr, int n)
+void selectionSort(Record *arr, int n, long long *stepCounter)
 {
     // TODO: Implement this sorting algorithm here.
 
 }
 
 // Made By: Zach Benedict Hallare
-void mergeSort(Record *arr, int p, int r)
+void mergeSort(Record *arr, int p, int r, long long *stepCounter)
 {
     // Checks if there's more than one element in the array.
     if (p < r) {
         int mid = (p + r) / 2;      // Find the middle index.
-        mergeSort(arr, p, mid);       // Sort the left half recursively.
-        mergeSort(arr, mid + 1, r);     // Sort the right half recursively.
+        mergeSort(arr, p, mid, stepCounter);       // Sort the left half recursively.
+        mergeSort(arr, mid + 1, r, stepCounter);     // Sort the right half recursively.
 
         // Get the lengths of the two halves.
         int firstHalfLen = mid - p + 1;
@@ -63,9 +62,11 @@ void mergeSort(Record *arr, int p, int r)
         // Copies the data to temp arrays.
         for (int i = 0; i < firstHalfLen; i++) {
             leftArr[i] = arr[p + i];
+            (*stepCounter)++;
         }
         for (int j = 0; j < secondHalfLen; j++) {
             rightArr[j] = arr[mid + 1 + j];
+            (*stepCounter)++;
         }
 
         // Merge the sorted backs into the original array.
@@ -73,19 +74,24 @@ void mergeSort(Record *arr, int p, int r)
         int j = 0;      // Right array index.
         int k = p;      // Merged array index.
         while (i < firstHalfLen && j < secondHalfLen) {
+            (*stepCounter)++;
             if (leftArr[i].idNumber <= rightArr[j].idNumber) {
                 arr[k++] = leftArr[i++];
+                (*stepCounter)++;
             } else {
                 arr[k++] = rightArr[j++];
+                (*stepCounter)++;
             }
         }
 
         // Check any remaining elements.
         while (i < firstHalfLen) {
             arr[k++] = leftArr[i++];
+            (*stepCounter)++;
         }
         while (j < secondHalfLen) {
             arr[k++] = rightArr[j++];
+            (*stepCounter)++;
         }
 
         // Free the temp arrays.
@@ -102,7 +108,7 @@ void mergeSort(Record *arr, int p, int r)
 
 
 // Made By:
-void bubbleSort(Record *arr, int n)
+void bubbleSort(Record *arr, int n, long long *stepCounter)
 {
     int i, j;           // Loop counters
     Record temp;        // Used to temporarily hold a Record during swapping
@@ -111,11 +117,14 @@ void bubbleSort(Record *arr, int n)
     for (i = 0; i < n - 1; i++) {
         // Compare each pair of Records next to each other
         for (j = 0; j < n - i - 1; j++) {
+            (*stepCounter)++;
+
             // If the current ID is bigger than the next one, swap them
             if (arr[j].idNumber > arr[j + 1].idNumber) {
                 temp = arr[j];              
                 arr[j] = arr[j + 1];        
-                arr[j + 1] = temp;          
+                arr[j + 1] = temp;  
+                (*stepCounter) += 3;    // swap        
             }
         }
     }
