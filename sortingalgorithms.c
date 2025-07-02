@@ -2,6 +2,7 @@
 #define SORTINGALGORITHMS_C
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "record.c"
 
 /*
@@ -49,11 +50,17 @@ void mergeSort(Record *arr, int p, int r)
         int firstHalfLen = mid - p + 1;
         int secondHalfLen = r - mid;
 
-        // Temporary array to hold their values.
-        Record leftArr[firstHalfLen];
-        Record rightArr[secondHalfLen];
+        // Temporary array to hold their values (using a dynamic array for large values).
+        Record *leftArr = (Record *)malloc(sizeof(Record) * firstHalfLen);
+        Record *rightArr = (Record *)malloc(sizeof(Record) * secondHalfLen);
 
-        // Copies the data to each array.
+        // Check for allocation failure.
+        if (leftArr == NULL || rightArr == NULL) {
+            printf("Memory allocation failed in mergeSort.\n");
+            exit(1);
+        }
+
+        // Copies the data to temp arrays.
         for (int i = 0; i < firstHalfLen; i++) {
             leftArr[i] = arr[p + i];
         }
@@ -65,7 +72,6 @@ void mergeSort(Record *arr, int p, int r)
         int i = 0;      // Left array index.
         int j = 0;      // Right array index.
         int k = p;      // Merged array index.
-
         while (i < firstHalfLen && j < secondHalfLen) {
             if (leftArr[i].idNumber <= rightArr[j].idNumber) {
                 arr[k++] = leftArr[i++];
@@ -74,13 +80,17 @@ void mergeSort(Record *arr, int p, int r)
             }
         }
 
-        // Check if there are remaining elements, copy them.
+        // Check any remaining elements.
         while (i < firstHalfLen) {
             arr[k++] = leftArr[i++];
         }
         while (j < secondHalfLen) {
             arr[k++] = rightArr[j++];
         }
+
+        // Free the temp arrays.
+        free(leftArr);
+        free(rightArr);
     }
 }
 

@@ -4,14 +4,11 @@
 #include "timer.c"
 #include <stdio.h>
 #include <string.h>
-
-#define MAX_RECORDS 100000
-#define DATASET_COUNT 7
-
+#include <stdlib.h>     // Added so we can use dynamic arrays.
 
 int main()
 {
-    char datasets[DATASET_COUNT][100] = {
+    char datasets[7][100] = {
         "data/almostsorted.txt",
         "data/random100.txt",
         "data/random25000.txt",
@@ -21,35 +18,83 @@ int main()
         "data/totallyreversed.txt"
     };
 
-    Record records[MAX_RECORDS];
-    int n;
+    for (int i = 0; i < 7; i++) {
+        char filepath[500];
+        strcpy(filepath, datasets[i]);
+        printf("\n==============================\n");
+        printf("Dataset: %s\n", filepath);
+        printf("==============================\n");
 
-    for (int d = 0; d < DATASET_COUNT; d++) {
-        printf("===== Dataset: %s =====\n", datasets[d]);
+        int numberOfRecords = 0;
 
-        FILE *fp = fopen(datasets[d], "r");
+        // Open the file and read the first line (number of records)
+        FILE *fp = fopen(filepath, "r");
         if (fp == NULL) {
-            printf("Failed to open file: %s\n", datasets[d]);
-            continue;
+            printf("Failed to open file.\n");
+            return 1;
+        }
+        fscanf(fp, "%d", &numberOfRecords);
+        fclose(fp);  // Close after reading the first line
+
+        // Now we know how many records to allocate and print
+        Record *originalRecords = malloc(sizeof(Record) * numberOfRecords);
+        if (originalRecords == NULL) {
+            printf("Memory allocation failed.\n");
+            return 1;
         }
 
-        fscanf(fp, "%d\n", &n);  // number of records
+        // Read all records using the given readFile function
+        readFile(originalRecords, filepath);
 
-        for (int i = 0; i < n; i++) {
-            fscanf(fp, "%d", &records[i].idNumber);
-            fgetc(fp); // consume space
-            fgets(records[i].name, 500, fp);
-            records[i].name[strcspn(records[i].name, "\n")] = 0; // remove newline
+        // Create copies for each part
+        Record *insertionArr = malloc(sizeof(Record) * numberOfRecords);
+        Record *selectionArr = malloc(sizeof(Record) * numberOfRecords);
+        Record *mergeArr = malloc(sizeof(Record) * numberOfRecords);
+        Record *bubbleArr = malloc(sizeof(Record) * numberOfRecords);
+
+        for (int j = 0; j < numberOfRecords; j++) {
+            insertionArr[j] = originalRecords[j];
+            selectionArr[j] = originalRecords[j];
+            mergeArr[j] = originalRecords[j];
+            bubbleArr[j] = originalRecords[j];
         }
 
-        fclose(fp);
+        long startTime, endTime, executionTime;
 
-        // Print first 10 records
-        for (int i = 0; i < 10 && i < n; i++) {
-            printf("%d %s\n", records[i].idNumber, records[i].name);
-        }
+        // Insertion Sort.
+        startTime = currentTimeMillis(); 
+        insertionSort(insertionArr, numberOfRecords);
+        endTime = currentTimeMillis();  
+        executionTime = endTime - startTime;
+        printf("Insertion Sort - Time: %ld ms\n", executionTime);
 
-        printf("\n");
+        // Selection Sort.
+        startTime = currentTimeMillis(); 
+        selectionSort(selectionArr, numberOfRecords);
+        endTime = currentTimeMillis();  
+        executionTime = endTime - startTime;
+        printf("Selection Sort - Time: %ld ms\n", executionTime);
+
+        // Merge Sort.
+        startTime = currentTimeMillis(); 
+        mergeSort(mergeArr, 0, numberOfRecords - 1);
+        endTime = currentTimeMillis();  
+        executionTime = endTime - startTime;
+        printf("Merge Sort - Time: %ld ms\n", executionTime);
+
+        // Bubble Sort.
+        startTime = currentTimeMillis(); 
+        bubbleSort(bubbleArr, numberOfRecords);
+        endTime = currentTimeMillis();  
+        executionTime = endTime - startTime;
+        printf("Bubble Sort - Time: %ld ms\n", executionTime);
+
+        // Deallacated memory for safety.
+        free(originalRecords);
+        free(insertionArr);
+        free(selectionArr);
+        free(mergeArr);
+        free(bubbleArr);
     }
 
     return 0;
