@@ -16,8 +16,17 @@
 // Made By: 
 void insertionSort(Record *arr, int n)
 {
-    // TODO: Implement this sorting algorithm here.
+    for (int i = 1; i < n; i++) {
+        Record key = arr[i];   
+        int j = i - 1;
 
+        while (j >= 0 && arr[j].idNumber > key.idNumber) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        arr[j + 1] = key;   
+    }
 }
 
 // Made By: 
