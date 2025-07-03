@@ -38,8 +38,27 @@ void insertionSort(Record *arr, int n, long long *stepCounter)
 // Made By: Santino Jose Suarez
 void selectionSort(Record *arr, int n, long long *stepCounter)
 {
-    // TODO: Implement this sorting algorithm here.
+    int i, j, min; 
+    Record temp; 
 
+    for (i = 0; i < n; i++)
+    {
+        min = i; // Sets  min to value at index 0.
+
+        for (j = i + 1; j < n; j++)
+        {
+            (*stepCounter)++;   // comparison.
+            if(arr[j].idNumber < arr[min].idNumber)
+            {
+                min = j; // Updates min to value at index j (new minimum).
+            }
+        }
+
+        temp = arr[i];
+        arr[i] = arr[min];
+        arr[min] = temp;
+        (*stepCounter) += 3;    // swap.
+    }
 }
 
 
