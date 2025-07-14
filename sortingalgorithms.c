@@ -134,27 +134,60 @@ void mergeSort(Record *arr, int p, int r, long long *stepCounter)
 */
 
 
-// Made By: Rhaizza Mariel Legaspi
-void bubbleSort(Record *arr, int n, long long *stepCounter)
+//Made By: Rhaizza Mariel Legaspi
+void quickSort(Record *arr, int n, long long *stepCounter)
 {
-    int i, j;           // Loop counters
-    Record temp;        // Used to temporarily hold a Record during swapping
+	// Temporary array to simulate a recursion (stack)
+    int auxArray[n];
+    int top = -1;
+    int high, low, pivot, i, j, pivotIndex;
 
-    // Go through the list multiple times
-    for (i = 0; i < n - 1; i++) {
-        // Compare each pair of Records next to each other
-        for (j = 0; j < n - i - 1; j++) {
-            (*stepCounter)++;       // comparison.
+	// this will push initial range (start and the end of the array)
+    auxArray[++top] = 0;
+    auxArray[++top] = n - 1;
 
-            // If the current ID is bigger than the next one, swap them
-            if (arr[j].idNumber > arr[j + 1].idNumber) {
-                temp = arr[j];              
-                arr[j] = arr[j + 1];        
-                arr[j + 1] = temp;  
-                (*stepCounter) += 3;    // swap.  
+    while (top >= 0) {
+        // This will pop the current range to sort
+		high = auxArray[top--];
+        low = auxArray[top--];
+
+        // this will choose the last element as the pivot
+        pivot = arr[high].idNumber;
+        i = low - 1;
+		
+		//this will rearrange elements around the pivot
+        for (j = low; j < high; j++) {
+            (*stepCounter)++; // compare
+            if (arr[j].idNumber < pivot) {
+                i++;
+                Record temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                (*stepCounter) += 3; // swap
             }
         }
+
+        // This will move pivot to its correct position
+        Record temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        (*stepCounter) += 3; // swap
+        pivotIndex = i + 1;
+
+        // If there are elements on the left, push that range
+        if (pivotIndex - 1 > low) {
+            auxArray[++top] = low;
+            auxArray[++top] = pivotIndex - 1;
+        }
+
+        // If there are elements on the right, push that range
+        if (pivotIndex + 1 < high) {
+            auxArray[++top] = pivotIndex + 1;
+            auxArray[++top] = high;
+        }
     }
+	
+	
 }
 
 

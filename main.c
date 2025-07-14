@@ -108,21 +108,21 @@ int main()
                     printf("%-15s - Avg Time: %3ld ms | Avg Steps: %6lld\n", 
                         "Merge Sort", totalTime / REPEAT_COUNT, totalSteps / REPEAT_COUNT);
                     
-                    // --------- Bubble Sort ---------
+                    // --------- Quick Sort ---------
                     totalTime = 0;
                     totalSteps = 0;
                     for (int r = 0; r < REPEAT_COUNT; r++) {
                         memcpy(tempArr, originalRecords, sizeof(Record) * numberOfRecords);
                         long long steps = 0;
                         long start = currentTimeMillis();
-                        bubbleSort(tempArr, numberOfRecords, &steps);
+                        quickSort(tempArr, numberOfRecords, &steps);
                         long end = currentTimeMillis();
                         totalTime += (end - start);
                         totalSteps += steps;
                     }
                     
                     printf("%-15s - Avg Time: %3ld ms | Avg Steps: %6lld\n", 
-                        "Bubble Sort", totalTime / REPEAT_COUNT, totalSteps / REPEAT_COUNT);
+                        "Quick Sort", totalTime / REPEAT_COUNT, totalSteps / REPEAT_COUNT);
                     
                     // Cleanup the dynamic arrays.
                     free(originalRecords);
