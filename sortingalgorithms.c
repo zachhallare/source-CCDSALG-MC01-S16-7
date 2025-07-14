@@ -138,18 +138,18 @@ void mergeSort(Record *arr, int p, int r, long long *stepCounter)
 void quickSort(Record *arr, int n, long long *stepCounter)
 {
 	// Temporary array to simulate a recursion (stack)
-    int auxArray[n];
+    int aux[n];
     int top = -1;
-    int high, low, pivot, i, j, pivotIndex;
+    int high, low, pivot, i, j, pivotIn;
 
 	// this will push initial range (start and the end of the array)
-    auxArray[++top] = 0;
-    auxArray[++top] = n - 1;
+    aux[++top] = 0;
+    aux[++top] = n - 1;
 
     while (top >= 0) {
         // This will pop the current range to sort
-		high = auxArray[top--];
-        low = auxArray[top--];
+		high = aux[top--];
+        low = aux[top--];
 
         // this will choose the last element as the pivot
         pivot = arr[high].idNumber;
@@ -172,22 +172,21 @@ void quickSort(Record *arr, int n, long long *stepCounter)
         arr[i + 1] = arr[high];
         arr[high] = temp;
         (*stepCounter) += 3; // swap
-        pivotIndex = i + 1;
+        pivotIn = i + 1;
 
         // If there are elements on the left, push that range
-        if (pivotIndex - 1 > low) {
-            auxArray[++top] = low;
-            auxArray[++top] = pivotIndex - 1;
+        if (pivotIn - 1 > low) {
+            aux[++top] = low;
+            aux[++top] = pivotIn - 1;
         }
 
         // If there are elements on the right, push that range
-        if (pivotIndex + 1 < high) {
-            auxArray[++top] = pivotIndex + 1;
-            auxArray[++top] = high;
+        if (pivotIn + 1 < high) {
+            aux[++top] = pivotIn + 1;
+            aux[++top] = high;
         }
     }
-	
-	
+
 }
 
 
